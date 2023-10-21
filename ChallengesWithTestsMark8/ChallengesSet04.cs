@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ChallengesWithTestsMark8
 {
@@ -6,63 +8,21 @@ namespace ChallengesWithTestsMark8
     {
         public int AddEvenSubtractOdd(int[] numbers)
         {
-            int sum = 0;
-            foreach (int number in numbers)
-            {
-                if (number % 2 == 0)
-                {
-                    sum += number;
-                }
-                else 
-                {
-                    sum -= number;
-                }
-            }
-            return sum;
+            return numbers.Where(x => x % 2 == 0).Sum() - numbers.Where(x => x % 2 != 0).Sum();
         }
 
         public int GetLengthOfShortestString(string str1, string str2, string str3, string str4)
         {
-            var shortestString = 0;
-            if (str1.Length < str2.Length) 
-            {
-                shortestString = str1.Length;
-            }
-            else
-            {
-                shortestString = str2.Length;
-            }
-            if (str3.Length < shortestString) 
-            {
-                shortestString = str3.Length;
-            }
-            if (str4.Length < shortestString) 
-            {
-                shortestString = str4.Length;
-            }
-            return shortestString;
+            var shortest = new List<string>() { str1, str2, str3, str4 };
+            shortest = shortest.OrderBy(x => x.Length).ToList();
+            return shortest[0].Length;
         }
 
         public int GetSmallestNumber(int number1, int number2, int number3, int number4)
         {
-            var smallestNumber = 0;
-            if (number1 < number2)
-            {
-                smallestNumber = number1;
-            }
-            else 
-            {
-                smallestNumber = number2;
-            }
-            if (number3 < smallestNumber) 
-            {
-                smallestNumber = number3;
-            }
-            if (number4 < smallestNumber) 
-            {
-                smallestNumber = number4;
-            }
-            return smallestNumber;
+            var smallest = new List<int>() { number1, number2, number3, number4 };
+            smallest = smallest.OrderBy(x => x).ToList();
+            return smallest[0];
         }
 
         public void ChangeBusinessNameTo_TrueCoders(Business biz)
@@ -72,57 +32,38 @@ namespace ChallengesWithTestsMark8
 
         public bool CouldFormTriangle(int sideLength1, int sideLength2, int sideLength3)
         {
-            if (sideLength1 + sideLength2 > sideLength3 && sideLength1 + sideLength3 > sideLength2 && sideLength2 + sideLength3 > sideLength1)
-            {
-                return true;
-            }
-            else 
-            {
-                return false;
-            }
+            int a = sideLength1;
+            int b = sideLength2;
+            int c = sideLength3;
+            return (a + b > c && b + c > a && a + c > b) ? true : false;
         }
 
         public bool IsStringANumber(string input)
         {
-            bool isNumber = double.TryParse(input, out double result);    
-            return (isNumber) ? true : false;
+            return (double.TryParse(input, out double number)) ? true : false;
         }
 
         public bool MajorityOfElementsInArrayAreNull(object[] objs)
         {
             var nulls = 0;
-            var nonNulls = 0;
-            foreach (var obj in objs) 
+            foreach (object obj in objs)
             {
                 if (obj == null)
                 {
                     nulls++;
                 }
-                else 
-                {
-                    nonNulls++;
-                }
             }
-            return (nulls > nonNulls) ? true : false;
+            return (nulls > (objs.Length / 2)) ? true : false;
         }
 
         public double AverageEvens(int[] numbers)
         {
-            double amount = 0;
-            double sum = 0;
-            if (numbers == null || numbers.Length == 0) 
+            if (numbers == null || numbers.Length == 0 || !numbers.Any(x => x % 2 == 0))
             {
                 return 0;
             }
-            foreach (int number in numbers)
-            {
-                if (number % 2 == 0)
-                {
-                    amount++;
-                    sum += number;
-                }
-            }
-            return (sum == 0) ? 0:  sum / amount;
+            double average = numbers.Where(x => x % 2 == 0).Average();
+            return average;
         }
 
         public int Factorial(int number)
